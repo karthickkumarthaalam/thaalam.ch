@@ -1,0 +1,37 @@
+body,
+ul {
+  margin: 0;
+}
+
+/*.carousel-outer {
+  margin-bottom: 3rem;
+}*/
+
+img {
+  max-width: 100%;
+}
+
+/* Carousel one */
+
+.my-custom-selector-1 {
+  --numOfItemsInView: 3;
+  --portionVisibleOfExtraItem: .3;
+  --gapSize: 1rem;
+  --transitionDuration: .35s;
+  --transitionTiming: ease;
+}
+
+@media (min-width: 50rem) {
+  .my-custom-selector-1 {
+    --numOfItemsInView: 3;
+    --gapSize: 1rem;
+  }
+}
+
+@media (min-width: 75rem) {
+  .my-custom-selector-1 {
+    --numOfItemsInView: 7;	
+	--portionVisibleOfExtraItem: 0;
+  }
+}
+

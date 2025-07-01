@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/bootstrap-reboot.min.css" />
+    <link rel="stylesheet" href="css/bootstrap-grid.min.css" />
+    <link rel="stylesheet" href="css/owl.carousel.min.css" />
+    <link rel="stylesheet" href="css/magnific-popup.css" />
+    <link rel="stylesheet" href="css/select2.min.css" />
+    <link rel="stylesheet" href="css/plyr.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="icon/favicon.png" sizes="32x32" />
+    <title>Thaalam - verification</title>
+    <meta name="robots" content="noindex" />
+
+
+
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-KLC938NV');</script>
+    <!-- End Google Tag Manager -->
+
+
+
+    <style>
+        .select2-container {
+            width: 100% !important;
+            background: #ffffff;
+            padding: 10px;
+            border: 1px solid;
+        }
+
+        .mfp-iframe-holder .mfp-content {
+            height: 100% !important;
+        }
+
+        .mfp-container {
+            padding: 40px 15px !important;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        #coupon_list {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .container1 {
+            width: 100%;
+            height: 100vh;
+            background: #f0fff3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+        }
+
+        .coupon-card {
+            background: linear-gradient(135deg, #ff4d4d, #ff1a1a);
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            padding: 25px;
+            max-width: 300px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            color: white;
+            margin: 20px;
+        }
+
+        .coupon-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% {
+                transform: rotate(45deg) translate(-50%, -50%);
+            }
+
+            100% {
+                transform: rotate(45deg) translate(50%, 50%);
+            }
+        }
+
+        .coupon-card h2 {
+            margin: 0;
+            font-size: 24px;
+            color: white;
+        }
+
+        .coupon-card p {
+            font-size: 14px;
+            color: white;
+            margin: 10px 0;
+        }
+
+        .coupon-card img {
+            width: 80px;
+            /* Adjust the size of the logo */
+            height: auto;
+            margin-bottom: 15px;
+        }
+
+        .coupon-code {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #ff1a1a;
+            margin: 15px 0;
+            display: inline-block;
+            cursor: pointer;
+            position: relative;
+            transition: background-color 0.3s ease;
+        }
+
+        .coupon-code:hover {
+            background-color: rgba(255, 255, 255, 1);
+        }
+
+        .coupon-code::after {
+            content: 'Click to Copy';
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .coupon-code:hover::after {
+            opacity: 1;
+        }
+
+        .coupon-card a {
+            background-color: #ff1a1a;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+            z-index: 2;
+            position: relative;
+        }
+
+        .coupon-card a:hover {
+            background-color: #cc0000;
+        }
+
+        input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            background-color: #fff;
+            margin: 0;
+            font: inherit;
+            color: currentColor;
+            width: 22px;
+            height: 22px;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            display: grid;
+            place-content: center;
+            cursor: pointer;
+        }
+
+        input[type="checkbox"]:checked::before {
+            content: "✓";
+            color: #0DCADF;
+            font-size: 16px;
+            line-height: 1;
+        }
+
+
+        @media (max-width: 400px) {
+            .coupon-card {
+                padding: 20px;
+            }
+
+            .coupon-card h2 {
+                font-size: 20px;
+            }
+
+            .coupon-code {
+                font-size: 16px;
+            }
+        }
+
+        .accordion-content {
+            display: none;
+            padding: 16px 20px;
+            background: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-top: 12px;
+            animation: fadeIn 0.3s ease-in-out;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .accordion-content ul {
+            padding-left: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .accordion-content li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 15px;
+            color: #333;
+        }
+
+        .accordion-content li svg {
+            width: 18px;
+            height: 18px;
+            fill: #0dcaf0;
+            flex-shrink: 0;
+        }
+
+        /* Optional fade animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-4px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body style="background: url('img/background.jpg'); background-size: cover">
+
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KLC938NV" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <!-- header -->
+    <!-- header -->
+    <!-- header -->
+
+    <header class="header">
+
+        <div class="header__content">
+            <div class="header__logo">
+                <a href="./">
+                    <img src="img/thalam-logo.png" alt="" />
+                </a>
+            </div>
+
+            <div id="commonnavbar" style="margin-right:10px;  text-align: end;"></div>
+
+            <script>
+
+            </script>
+
+            <!-- <div id="commonnavbar2"  style="  text-align: end;"></div> -->
+
+            <div class="header__action header__action--signin" style="width:55%;    margin-right: 30px;"
+                id="commonnavbar3">
+            </div>
+            <!-- <div class="header__action-btn" style="width:75%;    margin-right: 35px;">
+        <a class="header__action-btn" href="signin">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,2A10,10,0,0,0,4.65,18.76h0a10,10,0,0,0,14.7,0h0A10,10,0,0,0,12,2Zm0,18a8,8,0,0,1-5.55-2.25,6,6,0,0,1,11.1,0A8,8,0,0,1,12,20ZM10,10a2,2,0,1,1,2,2A2,2,0,0,1,10,10Zm8.91,6A8,8,0,0,0,15,12.62a4,4,0,1,0-6,0A8,8,0,0,0,5.09,16,7.92,7.92,0,0,1,4,12a8,8,0,0,1,16,0A7.92,7.92,0,0,1,18.91,16Z"></path></svg>
+        </a>
+      </div>
+      <div id="commonnavbar3"></div> -->
+
+            <a href="./contact">
+                <div class="phone-number phone-number--below">
+                    <img class="fa" src="icon/phone.png" />
+                    <span style="color: #f60001">Reach Us</span> <br />
+                    <span style="font-weight: initial">+41 79 288 22 71</span>
+                </div>
+            </a>
+            <button class="header__btn" type="button">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+    <!-- end header -->
+    <!-- end sidebar -->
+    <!-- sidebar -->
+    <div class="sidebar" style="background: url('img/background.jpg'); background-size: cover">
+        <!-- sidebar logo -->
+        <div class="sidebar__logo">
+            <a href="./"><img src="img/thalam-logo.png" alt="" /></a>
+        </div>
+        <!-- end sidebar logo -->
+
+        <!-- sidebar nav -->
+        <ul class="sidebar__nav" id="menucontent1">
+
+        </ul>
+        <!-- end sidebar nav -->
+    </div>
+    <!-- end sidebar -->
+
+    <!-- end header -->
+
+    <!-- main content -->
+    <main class="main">
+        <div class="container-fluid">
+            <div class="row row--grid">
+                <!-- breadcrumb -->
+                <div class="col-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb__item"><a href="index">Home</a></li>
+                        <li class="breadcrumb__item breadcrumb__item--active">Profile</li>
+                    </ul>
+                </div>
+                <!-- end breadcrumb -->
+
+                <!-- title -->
+
+                <!-- end title -->
+            </div>
+
+            <div class="row row--grid">
+                <div class="col-12">
+                    <div class="profile">
+                        <div class="profile__user">
+                            <!-- <div class="profile__avatar">
+              <img src="img/avatar.svg" alt="">
+            </div> -->
+                            <div class="profile__meta " id="profileinfo1">
+
+                            </div>
+                        </div>
+
+                        <!-- tabs nav -->
+                        <ul class="nav nav-tabs profile__tabs" id="profile__tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#tab-3" role="tab"
+                                    aria-controls="tab-3" aria-selected="true">Orders</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1"
+                                    aria-selected="false">Settings</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2"
+                                    aria-selected="false">Coupons</a>
+                            </li>
+                        </ul>
+                        <!-- end tabs nav -->
+
+                        <button class="profile__logout" type="button" onclick="Logout()">
+                            <span>Sign out</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path
+                                    d="M12.59,13l-2.3,2.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l4-4a1,1,0,0,0,.21-.33,1,1,0,0,0,0-.76,1,1,0,0,0-.21-.33l-4-4a1,1,0,1,0-1.42,1.42L12.59,11H3a1,1,0,0,0,0,2ZM12,2A10,10,0,0,0,3,7.55a1,1,0,0,0,1.8.9A8,8,0,1,1,12,20a7.93,7.93,0,0,1-7.16-4.45,1,1,0,0,0-1.8.9A10,10,0,1,0,12,2Z" />
+                            </svg>
+                        </button>
+                    </div>
+
+
+                    <!-- content tabs -->
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-3" role="tabpanel">
+                            <div class="row row--grid">
+
+
+                                <div class="col-12 col-lg-12 col-xl-12" id="membershippanel">
+
+                                </div>
+
+
+                            </div>
+                            <div class="row row--grid">
+                                <div class="col-12">
+                                    <form action="#" class="sign__form sign__form--profile" id="refundRequestForm"
+                                        style="display: none;">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <h4 class="sign__title">Request a Refund</h4>
+                                            </div>
+
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <div class="sign__group">
+                                                    <label class="sign__label" for="refundTransactionId">Transaction
+                                                        ID</label>
+                                                    <input id="refundTransactionId" type="text" name="transaction_id"
+                                                        class="sign__input" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <div class="sign__group">
+                                                    <label class="sign__label" for="reason">Reason for Refund</label>
+                                                    <textarea id="reason" name="refund_reason" class="sign__textarea"
+                                                        rows="3" required></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 ">
+                                                <h6 class="">Note: Your package gets reverted</h6>
+
+                                                <div style="display: flex; gap: 20px;">
+                                                    <button class="sign__btn"
+                                                        style="color: #fff;background-color: #0e2d49;" type="button"
+                                                        onclick="closeRefundModal()">Close </button>
+                                                    <button class="sign__btn" type="button"
+                                                        onclick="submitRefundRequest()">Submit </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <div class="dashbox">
+                                        <div class="dashbox__table-wrap">
+                                            <div class="dashbox__table-scroll">
+                                                <table class="main__table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th><a href="#" class="active">Package Id <svg
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        viewBox="0 0 24 24">
+                                                                        <path
+                                                                            d="M9.71,10.21,12,7.91l2.29,2.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42l-3-3a1,1,0,0,0-1.42,0l-3,3a1,1,0,0,0,1.42,1.42Zm4.58,4.58L12,17.09l-2.29-2.3a1,1,0,0,0-1.42,1.42l3,3a1,1,0,0,0,1.42,0l3-3a1,1,0,0,0-1.42-1.42Z" />
+                                                                    </svg></a></th>
+                                                            <th><a href="#" class="active">Transaction Id <svg
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        viewBox="0 0 24 24">
+                                                                        <path
+                                                                            d="M9.71,10.21,12,7.91l2.29,2.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42l-3-3a1,1,0,0,0-1.42,0l-3,3a1,1,0,0,0,1.42,1.42Zm4.58,4.58L12,17.09l-2.29-2.3a1,1,0,0,0-1.42,1.42l3,3a1,1,0,0,0,1.42,0l3-3a1,1,0,0,0-1.42-1.42Z" />
+                                                                    </svg></a></th>
+                                                            <th><a href="#" class="active">Package Name <svg
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        viewBox="0 0 24 24">
+                                                                        <path
+                                                                            d="M9.71,10.21,12,7.91l2.29,2.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42l-3-3a1,1,0,0,0-1.42,0l-3,3a1,1,0,0,0,1.42,1.42Zm4.58,4.58L12,17.09l-2.29-2.3a1,1,0,0,0-1.42,1.42l3,3a1,1,0,0,0,1.42,0l3-3a1,1,0,0,0-1.42-1.42Z" />
+                                                                    </svg></a></th>
+                                                            <th><a href="#">Purchase Date <svg
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        viewBox="0 0 24 24">
+                                                                        <path
+                                                                            d="M9.71,10.21,12,7.91l2.29,2.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42l-3-3a1,1,0,0,0-1.42,0l-3,3a1,1,0,0,0,1.42,1.42Zm4.58,4.58L12,17.09l-2.29-2.3a1,1,0,0,0-1.42,1.42l3,3a1,1,0,0,0,1.42,0l3-3a1,1,0,0,0-1.42-1.42Z" />
+                                                                    </svg></a></th>
+                                                            <th><a href="#">Total <svg
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        viewBox="0 0 24 24">
+                                                                        <path
+                                                                            d="M9.71,10.21,12,7.91l2.29,2.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42l-3-3a1,1,0,0,0-1.42,0l-3,3a1,1,0,0,0,1.42,1.42Zm4.58,4.58L12,17.09l-2.29-2.3a1,1,0,0,0-1.42,1.42l3,3a1,1,0,0,0,1.42,0l3-3a1,1,0,0,0-1.42-1.42Z" />
+                                                                    </svg></a></th>
+                                                            <th><a href="#">Payment Status <svg
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        viewBox="0 0 24 24">
+                                                                        <path
+                                                                            d="M9.71,10.21,12,7.91l2.29,2.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42l-3-3a1,1,0,0,0-1.42,0l-3,3a1,1,0,0,0,1.42,1.42Zm4.58,4.58L12,17.09l-2.29-2.3a1,1,0,0,0-1.42,1.42l3,3a1,1,0,0,0,1.42,0l3-3a1,1,0,0,0-1.42-1.42Z" />
+                                                                    </svg></a></th>
+                                                            <th><a href="#">Refund request<svg
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        viewBox="0 0 24 24">
+                                                                        <path
+                                                                            d="M9.71,10.21,12,7.91l2.29,2.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42l-3-3a1,1,0,0,0-1.42,0l-3,3a1,1,0,0,0,1.42,1.42Zm4.58,4.58L12,17.09l-2.29-2.3a1,1,0,0,0-1.42,1.42l3,3a1,1,0,0,0,1.42,0l3-3a1,1,0,0,0-1.42-1.42Z" />
+                                                                    </svg></a></th> <!-- New Column -->
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="packagetable">
+                                                        <tr>
+                                                            <td colspan="9" style="text-align: center;">No Records Found
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade show" id="tab-1" role="tabpanel">
+                            <div class="row row--grid">
+                                <!-- details form -->
+                                <div class="col-12 col-lg-6">
+                                    <form action="#" class="sign__form sign__form--profile">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <h4 class="sign__title">Profile details</h4>
+                                            </div>
+
+                                            <div class="col-12 col-md-12 col-lg-6 col-xl-6">
+                                                <div class="sign__group">
+                                                    <label class="sign__label" for="username">Name</label>
+                                                    <input id="username" type="text" name="username"
+                                                        class="sign__input">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-md-12 col-lg-6 col-xl-6">
+                                                <div class="sign__group">
+                                                    <label class="sign__label" for="gender"> Gender</label>
+                                                    <select id="gender" class="sign__select">
+                                                        <option value="">Select Gender</option>
+                                                        <option value="Male">Male</option>
+                                                        <option value="Female">Female</option>
+                                                        <option value="Other">Others</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-md-12 col-lg-6 col-xl-6">
+                                                <div class="sign__group">
+                                                    <label for="address1" class="sign__label">Address 1</label>
+                                                    <input text="text" id="address1" class="sign__input">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-md-12 col-lg-6 col-xl-6">
+                                                <div class="sign__group">
+                                                    <label for="address2" class="sign__label">Address 2</label>
+                                                    <input text="text" id="address2" class="sign__input">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-md-12 col-lg-6 col-xl-6">
+                                                <div class="sign__group">
+                                                    <label class="sign__label" for="email">Email</label>
+                                                    <input id="email" type="text" name="email" class="sign__input"
+                                                        readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-md-12 col-lg-6 col-xl-6">
+                                                <div class="sign__group">
+                                                    <label class="sign__label" for="firstname">Mobile</label>
+                                                    <input id="mobile" type="text" name="mobile" class="sign__input"
+                                                        oninput="numOnly(this.id);" maxlength="14"
+                                                        pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12" id="otp-note" style="display:none;">
+                                                <p class="text-success">We’ve sent a 6-digit OTP to your registered
+                                                    email. Enter it below to confirm your changes.</p>
+                                            </div>
+
+                                            <div class="col-12 col-md-12 col-lg-6 col-xl-6" id="otp-section"
+                                                style="display: none;">
+                                                <div class="sign__group">
+                                                    <label class="sign__label" for="otp-field">Enter OTP</label>
+                                                    <input type="text" class="sign__input" id="otp-field"
+                                                        placeholder="Enter 6-Digit Code" maxlength="6"
+                                                        oninput="numOnly(this.id);">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <button class="sign__btn" type="button" id="profile-btn"
+                                                    onclick="updateprofile();">Verify & Continue</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- end details form -->
+
+                                <!-- password form -->
+                                <div class="col-12 col-lg-6">
+                                    <form action="#" class="sign__form sign__form--profile">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <h4 class="sign__title">Change password</h4>
+                                            </div>
+
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <div class="sign__group">
+                                                    <label class="sign__label" for="oldpass">Old password</label>
+                                                    <input id="oldpass" type="password" name="oldpass"
+                                                        class="sign__input">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <div class="sign__group">
+                                                    <label class="sign__label" for="newpass">New password</label>
+                                                    <input id="newpass" type="password" name="newpass"
+                                                        class="sign__input">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                                                <div class="sign__group">
+                                                    <label class="sign__label" for="confirmpass">Confirm new
+                                                        password</label>
+                                                    <input id="confirmpass" type="password" name="confirmpass"
+                                                        class="sign__input">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <button class="sign__btn" type="button"
+                                                    onclick="changepassword();">Change</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- end password form -->
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade show" id="tab-2" role="tabpanel">
+                            <div class="row row--grid">
+
+                                <div class="col-12 col-lg-12">
+                                    <div class="dashbox">
+                                        <div class="dashbox__title">
+                                            <h3><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                    <path
+                                                        d="M19.05566,2h-14a3.00328,3.00328,0,0,0-3,3V19a3.00328,3.00328,0,0,0,3,3h14a3.00328,3.00328,0,0,0,3-3V5A3.00328,3.00328,0,0,0,19.05566,2Zm-14,2h14a1.001,1.001,0,0,1,1,1v8H17.59082a1.99687,1.99687,0,0,0-1.66406.89062L14.52051,16H9.59082L8.18457,13.89062A1.99687,1.99687,0,0,0,6.52051,13H4.05566V5A1.001,1.001,0,0,1,5.05566,4Zm14,16h-14a1.001,1.001,0,0,1-1-1V15H6.52051l1.40625,2.10938A1.99687,1.99687,0,0,0,9.59082,18h4.92969a1.99687,1.99687,0,0,0,1.66406-.89062L17.59082,15h2.46484v4A1.001,1.001,0,0,1,19.05566,20Z" />
+                                                </svg> Coupons </h3>
+
+                                            <div class="dashbox__wrap">
+                                                <a class="dashbox__refresh" onclick="getCoupon();"><svg
+                                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                        <path
+                                                            d="M12,2A10,10,0,0,0,5.12,4.77V3a1,1,0,0,0-2,0V7.5a1,1,0,0,0,1,1H8.62a1,1,0,0,0,0-2H6.22A8,8,0,1,1,4,12a1,1,0,0,0-2,0A10,10,0,1,0,12,2Zm0,6a1,1,0,0,0-1,1v3a1,1,0,0,0,1,1h2a1,1,0,0,0,0-2H13V9A1,1,0,0,0,12,8Z" />
+                                                    </svg></a>
+                                            </div>
+                                        </div>
+
+                                        <div class="dashbox__list-wrap">
+                                            <div class=" row" id="coupon_list">
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- modal info -->
+                                <div id="modal-info5" class="zoom-anim-dialog mfp-hide modal modal--info">
+                                    <span class="modal__icon modal__icon--purple">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                            <path
+                                                d="M18,7h-.35A3.45,3.45,0,0,0,18,5.5a3.49,3.49,0,0,0-6-2.44A3.49,3.49,0,0,0,6,5.5,3.45,3.45,0,0,0,6.35,7H6a3,3,0,0,0-3,3v2a1,1,0,0,0,1,1H5v6a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V13h1a1,1,0,0,0,1-1V10A3,3,0,0,0,18,7ZM11,20H8a1,1,0,0,1-1-1V13h4Zm0-9H5V10A1,1,0,0,1,6,9h5Zm0-4H9.5A1.5,1.5,0,1,1,11,5.5Zm2-1.5A1.5,1.5,0,1,1,14.5,7H13ZM17,19a1,1,0,0,1-1,1H13V13h4Zm2-8H13V9h5a1,1,0,0,1,1,1Z">
+                                            </path>
+                                        </svg>
+                                    </span>
+
+                                    <button class="modal__close" type="button"><svg xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24">
+                                            <path
+                                                d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z" />
+                                        </svg></button>
+
+                                    <h4 class="sign__title">You have received a gift!</h4>
+
+                                    <div class="sign__group sign__group--row">
+                                        <span class="sign__text sign__text--small">There are many variations of passages
+                                            of Lorem Ipsum
+                                            available, but the majority have suffered alteration in some form, by
+                                            injected humour, or
+                                            randomised words which don't look even slightly believable.</span>
+
+                                        <span class="sign__text sign__text--small">There are many variations of passages
+                                            of Lorem Ipsum
+                                            available, but the majority have suffered alteration in some form, by
+                                            injected humour, or
+                                            randomised words which don't look even slightly believable.</span>
+                                    </div>
+                                </div>
+                                <!-- end modal info -->
+                            </div>
+
+
+                            <!-- Payment Modal -->
+                            <div id="paymentModal" class="modal fade" tabindex="-1" role="dialog">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Upload Payment Details</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="paymentForm">
+                                                <div class="form-group">
+                                                    <label for="transactionId">Transaction ID</label>
+                                                    <input type="text" class="form-control" id="transactionId" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="paymentDate">Payment Date</label>
+                                                    <input type="date" class="form-control" id="paymentDate" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="paymentProof">Upload Payment Proof</label>
+                                                    <input type="file" class="form-control" id="paymentProof"
+                                                        accept="image/*, .pdf" required>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary"
+                                                onclick="submitPaymentDetails()">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <!-- end content tabs -->
+            </div>
+        </div>
+        </div>
+    </main>
+    <!-- end main content -->
+
+    <!-- footer -->
+    <div id="commonfooter"></div>
+
+    <script src="js/jquery-3.5.1.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="js/smooth-scrollbar.js"></script>
+    <script src="js/select2.min.js"></script>
+    <script src="js/jquery.inputmask.min.js"></script>
+    <script src="js/plyr.min.js"></script>
+    <script src="js/main.js"></script>
+    <script type="text/javascript" src="js/menu.js"></script>
+    <script src="https://rawgit.com/GrouchPotato/js_humanized_time_span/master/humanized_time_span.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script>
+
+        function toggleAccordion(id) {
+            const content = document.getElementById(`accordion-${id}`);
+            if (content.style.display === "none") {
+                content.style.display = "block";
+            } else {
+                content.style.display = "none";
+            }
+        }
+
+        window.onload = function () {
+            getCoupon();
+            const change_error = localStorage.getItem("change_error");
+
+            if (change_error) {
+                successToast(change_error);
+                localStorage.setItem("change_error", "");
+            }
+            const mem1 = localStorage.getItem("memberid");
+
+            fetch("https://api.demoview.ch/api/memberPackage/details", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    memberid: mem1
+                }),
+            })
+                .then((res) => res.json())
+                .then((response) => {
+                    if (response.status === "error") {
+                        errorToast(response.message);
+                        return;
+                    }
+
+                    const item = response.items[0];
+
+                    $('#username').val(item.name);
+                    $('#email').val(item.email);
+                    $('#mobile').val(item.mobile);
+                    $('#gender').val(item.gender);
+                    $('#address1').val(item.address1);
+                    $('#address2').val(item.address2);
+
+                    let str = '';
+
+                    if (!item.package_name) {
+                        str += `
+                            <div class="stats">
+                                <span>No active plan</span>
+                                <div class="upgradeSubscription" style="position: absolute; bottom: 20px; right: 20px;">
+                                    <a href="./pricing" style="color:#fff;" class="header_sunscription_button__shqYE btn btn-primary">Buy</a>
+                                </div>
+                            </div>`;
+                    } else {
+                        str += `
+                            <div class="stats" style="position: relative; padding: 20px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 20px;" >
+                                <span style="cursor: pointer;" onclick="toggleAccordion(${item.id})">Active plan</span>
+                                <span style="display: block; margin-top: 12px; color: red; cursor: pointer;" onclick="toggleAccordion(${item.id})">${item.package_name}</span>
+                                <p><b>${item.symbol}${(item.price).toFixed(2)}</b></p>
+                                ${item.package_status !== "grace_period"
+                                ? `<p>Expire On: ${new Date(item.valid_till).toLocaleDateString("en-GB")}</p>`
+                                : ""}
+                                ${item.package_status === "grace_period"
+                                ? `<p style="color: orange;">Your package is currently running on grace period, It will expire soon</p>`
+                                : ""}
+                                <div class="upgradeSubscription" style="position: absolute; bottom: 70px; right: 20px;">
+                                    <a href="./pricing" style="color:#fff;" class="header_sunscription_button__shqYE btn btn-primary">${item.package_status == "grace_period" ? "Renew" : "Upgrade"}</a>
+                                </div>
+                            </div>
+
+                          <div id="accordion-${item.id}" class="accordion-content">
+                              <ul>
+                                ${item.package_features.map(feature => `
+                                  <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                      <path d="M18.71,7.21a1,1,0,0,0-1.42,0L9.84,14.67,6.71,11.53A1,1,0,1,0,5.29,13l3.84,3.84a1,1,0,0,0,1.42,0l8.16-8.16A1,1,0,0,0,18.71,7.21Z"/>
+                                    </svg>
+                                    ${feature}
+                                  </li>`).join('')}
+                              </ul>
+                            </div>`;
+
+                        if (item.coupons && item.coupons.length > 0) {
+                            str += `<div class="couponList" style="margin-top: 20px;">`;
+                            str += `<h5>Available Coupons:</h5>`;
+                            item.coupons.forEach(coupon => {
+                                str += `<span style="display:inline-block; margin-right:8px; padding:5px 10px; background:#f0f0f0; border-radius:4px;">${coupon.coupon_code}</span>`;
+                            });
+                            str += `</div>`;
+                        }
+
+                        if (item.auto_renew) {
+                            str += `
+                            <div class="autoRenewSection" style="margin-top: 20px; padding: 12px 16px; border: 1px solid #ddd; border-radius: 8px; background: #fdfdfd; display: flex; align-items: center; justify-content: space-between;">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <input type="checkbox" id="autoRenewToggle" checked 
+                                        style="appearance: none; width: 22px; height: 22px; border: 2px solid #ccc; border-radius: 4px; position: relative; cursor: pointer;"
+                                        onchange="handleAutoRenewToggle(${item.id})">
+                                    <label for="autoRenewToggle" style="cursor: pointer; font-size: 16px; color: #333;">Auto-Renew Active</label>
+                                </div>
+                            </div>`;
+                        }
+                    }
+
+                    document.getElementById("membershippanel").innerHTML = str;
+
+                });
+
+
+            fetch("https://api.demoview.ch/api/transactions/buy-package-report", {
+                method: "GET",
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("token"),
+                },
+            })
+                .then((res) => res.json())
+                .then((response) => {
+                    if (response.status === "error") {
+                        errorToast(response.message);
+                        return;
+                    }
+                    let str = "";
+                    for (let x in response.items) {
+                        let item = response.items[x];
+                        let startDate = new Date(item.start_date);
+                        let now = new Date();
+                        let timeDiff = now - startDate;
+                        let hoursDiff = timeDiff / (1000 * 60 * 60);
+
+                        str += `<tr>
+                                  <td><div class="main__table-text main__table-text--number">${item.package_id}</div></td>
+                                  <td><div class="main__table-text main__table-text--number">${item.transaction_id}</div></td>
+                                  <td><div class="main__table-text"><a href="#">${item.package_name}</a></div></td>
+                                  <td><div class="main__table-text">${new Date(item.start_date).toLocaleString()}</div></td>
+                                  <td><div class="main__table-text main__table-text--price">${item.symbol} ${parseFloat(item.price).toFixed(2)}</div></td>
+                                  <td>${item.payment_status === "0"
+                                ? `<div class="main__table-text" style="color:orange;">Pending</div>`
+                                : `<div class="main__table-text" style="color:green;">Paid</div>`
+                            }</td>
+                                  <td>${item.refund_status === "pending"
+                                ? `<div class="main__table-text" style="color:blue;">Pending</div>`
+                                : hoursDiff <= 48
+                                    ? `<button class="main__table-text" style="color:red" onClick="openRefundModal('${item.transaction_id}')">Request Refund</button>`
+                                    : `<span> - </span>`
+                            }</td>
+                                </tr>`;
+                    }
+                    document.getElementById("packagetable").innerHTML = str;
+                });
+
+
+            if (localStorage.getItem("memberid")) {
+
+                document.getElementById(
+                    "profileinfo1"
+                ).innerHTML = `<h3>${localStorage.getItem("username")}</h3>
+          <span>Member ID: ${localStorage.getItem("memberid")}</span>`;
+            }
+            menucontent();
+            const otperror = localStorage.getItem("otperror");
+            if (otperror) {
+                successToast(otperror);
+                localStorage.setItem("otperror", "");
+            }
+        };
+        function handleAutoRenewToggle(memberId) {
+            const token = localStorage.getItem("token");
+            const checkbox = document.getElementById("autoRenewToggle");
+            const autoRenew = checkbox.checked;
+            const autoRenewSection = document.getElementsByClassName("autoRenewSection");
+
+            if (!autoRenew) {
+                const confirmDisable = confirm("Are you sure you want to disable auto-renewal? This cannot be re-enabled from your panel.");
+                if (!confirmDisable) {
+                    checkbox.checked = true;
+                    return;
+                }
+            }
+
+            fetch(`https://api.demoview.ch/api/members/${memberId}/toggle-auto-renew`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + token
+                },
+                body: JSON.stringify({
+                    auto_renew: autoRenew
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "success") {
+                        successToast(`Auto-renew ${autoRenew ? 'enabled' : 'disabled'} successfully.`);
+                    } else {
+                        errorToast(data.message);
+                    }
+                    autoRenewSection[0].style.display = "none";
+                })
+                .catch(error => {
+                    errorToast("An error occurred while updating auto-renew status.");
+                });
+        }
+        $(function () {
+            $("#commonheader").load("./header");
+            $("#commonfooter").load("./footer");
+            setTimeout(() => {
+                SetLogin1();
+                SetLogout();
+                // //SetUsername();
+            }, 1000);
+        });
+
+        async function submitRefundRequest() {
+            const transactionId = document.getElementById("refundTransactionId").value.trim();
+            const refundReason = document.getElementById("reason").value.trim();
+            if (!transactionId || !refundReason) {
+                errorToast("Please fill in both Transaction Id and Reason");
+            }
+
+            try {
+                const response = await fetch("https://api.demoview.ch/api/transactions/request-refund", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        transaction_id: transactionId,
+                        refund_reason: refundReason
+                    })
+
+                });
+                const data = await response.json();
+
+                if (data.status === "success") {
+                    successToast("Refund requested successfully");
+                    document.getElementById("refundRequestForm").reset();
+                    closeRefundModal();
+                }
+            } catch (error) {
+                errorToast(error.message);
+            }
+        }
+
+        function openRefundModal(transactionId) {
+            document.getElementById("refundTransactionId").value = transactionId;
+            document.getElementById("refundRequestForm").style.display = "block";
+        }
+
+        function closeRefundModal() {
+            document.getElementById("refundRequestForm").style.display = "none";
+        }
+
+        function forgot() {
+            const otp = document.getElementById("otp").value;
+            const mem = localStorage.getItem("memberid_reg");
+            //  console.log(mem);
+            if (!otp) {
+                errorToast("Enter valid OTP");
+                return;
+            }
+
+
+            fetch("./mobileApi/mobile_verification_login.php", {
+                method: "post",
+                body: JSON.stringify({
+                    memberid: mem,
+                    otp: otp
+                }),
+            })
+
+
+                .then((res) => res.json())
+                .then((response) => {
+                    if (response.status === "error") {
+                        errorToast(response.message);
+                        return;
+                    }
+                    // console.log(res);
+                    errorToast(response.message);
+                    localStorage.setItem("memberid_reg", "");
+                    localStorage.setItem("toast_reg", response.message);
+                    window.location.href = "./";
+                });
+        }
+
+        function changepassword() {
+            const oldpass = document.getElementById("oldpass").value;
+            const newpass = document.getElementById("newpass").value;
+            const confirmpass = document.getElementById("confirmpass").value;
+            const token = localStorage.getItem("token");
+
+            if (!oldpass) {
+                errorToast("Enter Old Password");
+                return;
+            } else if (!newpass) {
+                errorToast("Enter New Password");
+                return;
+            } else if (!confirmpass) {
+                errorToast("Enter Confirm Password");
+                return;
+            } else if (newpass !== confirmpass) {
+                errorToast("New password and confirm password must be same");
+                return;
+            }
+
+            fetch("https://api.demoview.ch/api/members/change-password", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + token
+                },
+                body: JSON.stringify({
+                    currentPassword: oldpass,
+                    newPassword: newpass,
+                    confirmPassword: confirmpass
+                }),
+            })
+                .then((res) => res.json())
+                .then((response) => {
+                    if (response.message === "Member not found" || response.message === "Current password is incorrect" || response.message === "New passwords do not match") {
+                        errorToast(response.message);
+                        return;
+                    }
+                    successToast(response.message);
+                    window.location.href = "./profile";
+                });
+
+        }
+
+        let otpGenerated = false;
+        function updateprofile() {
+            const memberId = localStorage.getItem("memberid");
+            const token = localStorage.getItem("token");
+
+            if (!otpGenerated) {
+                fetch(`https://api.demoview.ch/api/members/${memberId}/request-update-otp`, {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': "application/json",
+                        "Authorization": "Bearer " + token
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === "success") {
+                            document.getElementById("otp-note").style.display = "block";
+                            document.getElementById("otp-section").style.display = "block";
+                            document.getElementById("profile-btn").innerText = "Confim & update";
+                            otpGenerated = true;
+                        }
+                    })
+                    .catch(error => {
+                        errorToast(response.message);
+                    });
+            } else {
+                const otp = document.getElementById("otp-field").value;
+                if (!otp) {
+                    errorToast("Please enter the OTP.");
+                    return;
+                }
+                const updatedProfile = {
+                    name: document.getElementById("username").value,
+                    gener: document.getElementById("gender").value,
+                    address1: document.getElementById("address1").value,
+                    address2: document.getElementById("address2").value,
+                    phone: document.getElementById("mobile").value,
+                    otp: otp
+                };
+
+                fetch(`https://api.demoview.ch/api/members/${memberId}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + token
+                    },
+                    body: JSON.stringify(updatedProfile)
+                })
+                    .then((res) => res.json())
+                    .then((data) => {
+                        if (data.status === "success") {
+                            successToast("Profile Updated successfully");
+                            document.getElementById("otp-note").style.display = "none";
+                            document.getElementById("otp-section").style.display = "none";
+                            document.getElementById("profile-btn").innerText = "Verify & Continue";
+                            otpGenerated = false;
+                        }
+                    })
+                    .catch(error => {
+                        errorToast("Failed to update Profile");
+                    });
+            }
+
+        }
+
+        function resend() {
+            const mem = localStorage.getItem("memberid_reg");
+            fetch("./mobileApi/resend_code_signup.php", {
+                method: "post",
+                body: JSON.stringify({
+                    memberid: mem
+                }),
+            })
+                .then((res) => res.json())
+                .then((response) => {
+                    if (response.status === "error") {
+                        errorToast(response.message);
+                        return;
+                    }
+                    successToast(response.message);
+
+                });
+        }
+
+
+
+        function getCoupon() {
+            fetch("https://api.demoview.ch/api/coupons/coupon-report", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                }
+            })
+                .then((res) => res.json())
+                .then((response) => {
+                    let str = "";
+
+                    if (response.status === "success" && response.items.length > 0) {
+                        response.items.forEach((x) => {
+                            const date = moment(x.end_date).format("DD MMM YYYY");
+
+                            str += `<div class="coupon-card">
+                    <h2>${x.coupon_name}</h2>
+                    <p>${x.description}</p>
+                    <div class="coupon-code" onclick="copyCouponCode(this)">
+                      ${x.coupon_code}
+                    </div>
+                    <a href="${x.redirect_url}" target="_blank">Click!</a>
+                </div>`;
+                        });
+                    } else {
+                        str += `<span>No coupon available</span>`;
+                    }
+
+                    document.getElementById("coupon_list").innerHTML = str;
+                });
+        }
+
+    </script>
+
+
+
+    <script>
+        function copyCouponCode(element) {
+            const couponCode = element.textContent.trim();
+
+            if (!couponCode) {
+                alert('No coupon code found!');
+                return;
+            }
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(couponCode)
+                    .then(() => showCopySuccessMessage(couponCode))
+                    .catch((err) => {
+                        console.error('Clipboard API failed:', err);
+                        fallbackCopyText(couponCode);
+                    });
+            } else {
+                fallbackCopyText(couponCode);
+            }
+        }
+
+        function fallbackCopyText(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+
+            try {
+                document.execCommand('copy');
+                showCopySuccessMessage(text);
+            } catch (err) {
+                console.error('Fallback copy failed:', err);
+                alert('Failed to copy coupon code. Please copy manually: ' + text);
+            }
+
+            document.body.removeChild(textarea);
+        }
+
+        function showCopySuccessMessage(code) {
+            let message = document.getElementById('copyMessage');
+
+            if (!message) {
+                message = document.createElement('div');
+                message.id = 'copyMessage';
+                message.style.position = 'fixed';
+                message.style.bottom = '20px';
+                message.style.left = '50%';
+                message.style.transform = 'translateX(-50%)';
+                message.style.background = '#4CAF50';
+                message.style.color = 'white';
+                message.style.padding = '10px 20px';
+                message.style.borderRadius = '5px';
+                message.style.boxShadow = '0 2px 4px rgba(0,0,0,0.2)';
+                message.style.zIndex = '1000';
+                document.body.appendChild(message);
+            }
+
+            message.innerText = `Copied: ${code}`;
+            message.style.display = 'block';
+
+            setTimeout(() => {
+                message.style.display = 'none';
+            }, 2000);
+        }
+    </script>
+
+
+
+    <script>
+        let currentPackageId = null;
+
+        // Function to open the payment modal
+        function openPaymentModal(packageId) {
+            currentPackageId = packageId;
+            $('#paymentModal').modal('show');
+        }
+
+        // Function to submit payment details
+        function submitPaymentDetails() {
+            const transactionId = document.getElementById('transactionId').value;
+            const paymentDate = document.getElementById('paymentDate').value;
+            const paymentProof = document.getElementById('paymentProof').files[0];
+
+            if (!transactionId || !paymentDate || !paymentProof) {
+                errorToast("Please fill all fields and upload payment proof.");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('packageId', currentPackageId);
+            formData.append('transactionId', transactionId);
+            formData.append('paymentDate', paymentDate);
+            formData.append('paymentProof', paymentProof);
+
+            fetch("./mobileApi/upload_payment.php", {
+                method: "POST",
+                body: formData,
+                headers: {
+                    Authorization: localStorage.getItem('token')
+                },
+            })
+                .then((res) => res.json())
+                .then((response) => {
+                    if (response.status === "error") {
+                        errorToast(response.message);
+                        return;
+                    }
+                    successToast(response.message);
+                    $('#paymentModal').modal('hide');
+                    // Refresh the table or update the row dynamically
+                    window.location.reload();
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    errorToast("Failed to upload payment details.");
+                });
+        }
+    </script>
+</body>
+
+</html>

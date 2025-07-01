@@ -1,0 +1,284 @@
+.pricing-section {
+    background: transparent;
+    backdrop-filter: blur(15px);
+    padding: 70px 30px;
+}
+
+.join-title h1 {
+    font-size: 42px;
+    font-weight: 400;
+    text-align: center;
+    color: #222;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    line-height: 1.3;
+}
+
+.pd_bottom_10 {
+    height: 10px;
+}
+
+@media (max-width: 768px) {
+    .join-title h1 {
+        font-size: 32px;
+    }
+}
+
+
+.billing-toggle {
+  display: inline-flex;
+  position: relative;
+  border-radius: 50px;
+  overflow: hidden;
+  border: 2px solid #ff7e5f;
+  background: #fff;
+  padding: 3px;
+  width: 280px;
+  justify-content: space-between;
+  margin: 0 auto; 
+}
+
+.billing-toggle input[type="radio"] {
+  display: none;
+}
+
+.billing-toggle label {
+  flex: 1;
+  text-align: center;
+  padding: 8px 0;
+  cursor: pointer;
+  font-weight: 600;
+  color: #333;
+  z-index: 2;
+  position: relative;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.billing-toggle input:checked + label {
+  color: white;
+}
+
+.billing-toggle .switch-indicator {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: calc(50% - 6px);
+  height: calc(100% - 6px);
+  background: linear-gradient(135deg, #ff7e5f, #fc6076);
+  border-radius: 50px;
+  transition: all 0.4s ease;
+  z-index: 1;
+}
+
+.billing-toggle input#yearly:checked ~ .switch-indicator {
+  left: calc(50% + 3px);
+}
+
+@media (max-width: 768px) {
+  .billing-toggle label {
+    font-size: 12px; 
+  }
+  .billing-toggle {
+    width: 230px; 
+  }
+  .billing-toggle input:checked + label {
+    font-size: 13px; 
+  }
+}
+
+.join-title {
+  text-align: center;
+}
+
+.package-spacing {
+  margin-bottom: 4rem;
+}
+
+.package-card {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.5));
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    position: relative;
+    color: #333;
+    transition: all 0.4s ease;
+    overflow: hidden;
+    animation: warmColorChange  6s ease-in-out infinite alternate;
+}
+
+.package-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+.package-card h3 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #333;
+}
+
+.package-card h4 {
+    font-size: 40px;
+    color: #ff7e5f;
+    margin-bottom: 15px;
+}
+
+.package-card small {
+    font-size: 14px;
+    color: #777;
+}
+
+.package-card .btn {
+    background: linear-gradient(135deg, #ff4e50, #ff7e5f, #ffa69e) !important;
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 30px;
+    font-size: 18px;
+    width: 100%;
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    background-size: 200% 200%;
+    animation: gradientShift 4s ease infinite alternate;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+
+.package-card .btn:hover {
+    background: #feb47b;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.package-card .date-label {
+    font-size: 13px;
+    text-transform: uppercase;
+    color: #888;
+}
+
+.package-card .date-value {
+    font-size: 18px;
+    font-weight: 500;
+    color: #333;
+}
+
+@keyframes cardEntrance {
+    0% {
+        opacity: 0;
+        transform: translateX(50px) scale(0.95);
+    }
+    60% {
+        opacity: 1;
+        transform: translateX(-20px) scale(1.05);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+/* Shimmer Effect for Card */
+.card-shimmer {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -180px;
+    height: 100%;
+    width: 120px;
+    background: linear-gradient(120deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 100%);
+    transform: skewX(-25deg);
+    animation: shimmer 3s infinite;
+    z-index: 1;
+    opacity: 0.4;
+    border-radius: 15px;
+}
+
+@keyframes shimmer {
+    0% { left: -200px; }
+    100% { left: 120%; }
+}
+
+.container {
+    max-width: 1200px;
+}
+
+.list-unstyled li i {
+    color: #43c59e;
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+@keyframes warmColorChange {
+  0% {
+    background-color: #ff7e5f; /
+  }
+  50% {
+    background-color: #ff4e50; 
+  }
+
+  100% {
+    background-color: #ff7e5f; 
+  }
+}
+
+
+/* Heading Styles for Package Titles */
+.pricing-section h2 {
+    font-size: 32px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+    text-transform: uppercase; /* Capitalize for a more premium feel */
+}
+
+/* Paragraph Styles */
+.pricing-section p {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+/* Styling for the list of benefits (features) */
+.pricing-section ul {
+    padding-left: 1.5rem;
+    list-style-type: none;
+}
+
+.pricing-section ul li {
+    font-size: 16px;
+    color: #333;
+    line-height: 1.6;
+}
+
+.pricing-section ul li i {
+    color: #27ae60; /* Green check-circle icons */
+    margin-right: 10px;
+}
+
+/* Responsive adjustments for text */
+@media (max-width: 768px) {
+    .pricing-section h2 {
+        font-size: 28px;
+    }
+
+    .pricing-section p {
+        font-size: 14px;
+    }
+
+    .pricing-section ul li {
+        font-size: 14px;
+    }
+}
