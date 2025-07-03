@@ -162,6 +162,14 @@
                         <!-- Description -->
                         <div id="podcastDescription" class="podcast-details__description"></div>
 
+                        <!-- Tags -->
+                        <div class="podcast-details__bottom">
+                            <div class="podcast-details__tags">
+                                <p>Tags: </p>
+                                <span id="podcastTags"></span>
+                            </div>
+                        </div>
+
                         <!-- Audio Player -->
                         <div class="podcast-details__audio">
                             <div class="custom-audio-player">
@@ -182,16 +190,34 @@
                             </audio>
                         </div>
                         <div class="podcast-reactions" id="podcastReactions">
-                            <button class="reaction-btn" data-reaction="like">👍 <span class="count"
-                                    id="likeCount"></span></button>
-                            <button class="reaction-btn" data-reaction="love">❤️ <span class="count"
-                                    id="loveCount"></span></button>
-                            <button class="reaction-btn" data-reaction="clap">👏 <span class="count"
-                                    id="clapCount"></span></button>
+                            <button class="reaction-btn like-btn" data-reaction="like">
+                                <i class="fas fa-heart"></i>
+                                <span class="count" id="likeCount">0</span>
+                            </button>
+                            <button class="reaction-btn">
+                                <i class="fas fa-comment"></i>
+                            </button>
+                            <button class="reaction-btn" id="shareButton">
+                                <i class="fas fa-share-alt"></i>
+                            </button>
+                        </div>
+
+                        <div class="podcast-details__share" id="shareOptions">
+                            <a id="fb-share" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                            <a id="x-share" target="_blank">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path
+                                        d="M20.75 3h-3.43L12 9.35 6.68 3H3l7.47 8.43L3 21h3.43L12 14.65 17.32 21H21l-7.47-8.57L20.75 3z" />
+                                </svg>
+                            </a> <a id="tiktok-share" target="_blank"><i class="fab fa-tiktok"></i></a>
+                            <a id="insta-share" target="_blank"><i class="fab fa-instagram"></i></a>
+                            <a id="whatsapp-share" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                            <a href="#" onclick="copyLink(); return false;"><i class="fas fa-link"></i></a>
                         </div>
 
                         <div class="podcast-details__comments">
-                            <h2>Comments</h2>
+                            <h3>Comments</h3>
                             <form id="commentForm" onSubmit="submitComment(event)">
                                 <textarea name="" id="commentInput" rows="1" placeholder="Write your comment..."
                                     required></textarea>
@@ -204,31 +230,7 @@
                             </div>
                         </div>
 
-                        <!-- Tags -->
-                        <div class="podcast-details__bottom">
-                            <div class="podcast-details__tags">
-                                <p>Tags: </p>
-                                <span id="podcastTags"></span>
-                            </div>
 
-                            <!-- Share -->
-                            <div class="podcast-details__share">
-                                <p>Share: </p>
-                                <a id="fb-share" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                                <a id="x-share" target="_blank">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path
-                                            d="M20.75 3h-3.43L12 9.35 6.68 3H3l7.47 8.43L3 21h3.43L12 14.65 17.32 21H21l-7.47-8.57L20.75 3z" />
-                                    </svg>
-                                </a>
-                                <a id="tiktok-share" target="_blank"><i class="fab fa-tiktok"></i></a>
-                                <a id="insta-share" target="_blank"><i class="fab fa-instagram"></i></a>
-                                <a id="whatsapp-share" target="_blank"><i class="fab fa-whatsapp"></i></a>
-                                <a href="#" onclick="copyLink(); return false;"><i class="fas fa-link"></i></a>
-                            </div>
-
-                        </div>
 
                     </div> <!-- end left -->
 
@@ -274,6 +276,44 @@
             }, 1000);
         });
 
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const likeBtn = document.querySelector("[data-reaction='like']");
+            const likeCountElem = document.getElementById("likeCount");
+            let isLiked = false;
+
+            const commentBtn = document.querySelector(".reaction-btn i.fa-comment").parentElement;
+            const commentSection = document.querySelector(".podcast-details__comments");
+
+            const shareBtn = document.getElementById("shareButton");
+            const shareOptions = document.getElementById("shareOptions");
+
+            likeBtn.addEventListener("click", () => {
+                isLiked = !isLiked;
+                const currentLikes = parseInt(likeCountElem.textContent) || 0;
+                likeCountElem.textContent = isLiked ? currentLikes + 1 : currentLikes - 1;
+                likeBtn.classList.toggle("active");
+            });
+
+            commentBtn.addEventListener("click", () => {
+                commentSection.classList.toggle("active");
+                if (commentSection.classList.contains("active")) {
+                    commentSection.style.display = "block";
+                } else {
+                    commentSection.style.display = "none";
+                }
+            });
+
+            shareBtn.addEventListener("click", () => {
+                shareOptions.classList.toggle("active");
+                if (shareOptions.classList.contains("active")) {
+                    shareOptions.style.display = "flex";
+                } else {
+                    shareOptions.style.display = "none";
+                }
+            });
+        });
+
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const podcastId = urlParams.get("id");
@@ -311,8 +351,6 @@
 
                         if (result.reaction) {
                             document.getElementById("likeCount").textContent = result.reaction.like;
-                            document.getElementById("loveCount").textContent = result.reaction.love;
-                            document.getElementById("clapCount").textContent = result.reaction.clap;
                         }
 
                         fetchRelatedPodcasts(data.rjname, data.id);
@@ -444,7 +482,7 @@
         function setupReactionHandlers(podcastId, memberId) {
             let currentUserReaction = null;
 
-            document.querySelectorAll(".reaction-btn").forEach(btn => {
+            document.querySelectorAll(".like-btn").forEach(btn => {
                 btn.addEventListener("click", () => {
                     if (!memberId) {
                         window.location.href = `/signin?redirect_url=${encodeURIComponent(window.location.href)}`;
@@ -513,8 +551,6 @@
                 .then(result => {
                     if (result.status === "success") {
                         document.getElementById("likeCount").textContent = result.reactions.like;
-                        document.getElementById("loveCount").textContent = result.reactions.love;
-                        document.getElementById("clapCount").textContent = result.reactions.clap;
                     }
                 })
                 .catch(err => {

@@ -392,9 +392,9 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 15px;
-  background-color: #fafbff;
+  background-color: transparent;
   border-radius: 16px;
-  border: 1px solid #d1e8ff;
+  border: 1px solid #ddd;
 }
 
 .podcast-details__tags {
@@ -440,8 +440,10 @@ body {
 .podcast-details__share {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 14px;
+  justify-content: flex-start;
+  display: none;
+  gap: 10px;
+  margin-top: 10px;
 }
 
 .podcast-details__share p {
@@ -452,7 +454,7 @@ body {
 }
 
 .podcast-details__share a {
-  border: 1.5px solid #bedaf7;
+  border: 1.5px solid #f7c0be;
   color: #111;
   padding: 10px 12px;
   border-radius: 50%;
@@ -465,7 +467,7 @@ body {
 }
 
 .podcast-details__share a:hover {
-  background: #1976d2;
+  background: linear-gradient(135deg, #ff3333, #c4001d);
   color: #fff;
   transform: scale(1.1);
 }
@@ -1217,3 +1219,37 @@ body {
  
   margin-left: auto;
 }
+
+.reaction-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.reaction-btn i {
+  font-size: 18px;
+  color: #e60505;
+}
+
+.reaction-btn:hover {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.reaction-btn .count {
+  font-weight: 500;
+  color: #333;
+}
+
+.podcast-details__comments {
+  display: none;
+  margin-top: 20px;
+}
+

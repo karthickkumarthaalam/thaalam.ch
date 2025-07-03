@@ -257,9 +257,7 @@
                 if (likeCount > 0 || loveCount > 0 || clapCount > 0) {
                     reactionsHtml = `
                         <div class="podcast-reactions">
-                          ${likeCount > 0 ? `<span>👍 ${likeCount}</span>` : ""}
-                          ${loveCount > 0 ? `<span>❤️ ${loveCount}</span>` : ""}
-                          ${clapCount > 0 ? `<span>👏 ${clapCount}</span>` : ""}
+                          ${likeCount > 0 ? `<span><i class="fas fa-heart" style="color: #e60505"></i>  ${likeCount}</span>` : ""}
                         </div>
                   `;
                 }
