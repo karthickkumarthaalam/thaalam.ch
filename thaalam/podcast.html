@@ -247,30 +247,49 @@
                     .map(tag => `<span class="podcast-list__tag">${tag}</span>`)
                     .join('');
 
+                const reactions = podcast.reactions || {};
+                const likeCount = reactions.like || 0;
+                const loveCount = reactions.love || 0;
+                const clapCount = reactions.clap || 0;
+
+                let reactionsHtml = "";
+
+                if (likeCount > 0 || loveCount > 0 || clapCount > 0) {
+                    reactionsHtml = `
+                        <div class="podcast-reactions">
+                          ${likeCount > 0 ? `<span>👍 ${likeCount}</span>` : ""}
+                          ${loveCount > 0 ? `<span>❤️ ${loveCount}</span>` : ""}
+                          ${clapCount > 0 ? `<span>👏 ${clapCount}</span>` : ""}
+                        </div>
+                  `;
+                }
+
+
                 return `
-            <div class="podcast-card">
-              <div class="podcast-card__date">
-                <i class="fas fa-calendar-alt"></i> ${formattedDate}
-              </div>
+                      <div class="podcast-card">
+                        <div class="podcast-card__date">
+                          <i class="fas fa-calendar-alt"></i> ${formattedDate}
+                        </div>
 
-              <h3 class="podcast-card__title">${podcast.title}</h3>
+                        <h3 class="podcast-card__title">${podcast.title}</h3>
 
-              <div class="podcast-card__meta">
-                <div><i class="fas fa-user"></i> <strong>Published By:</strong> ${podcast.rjname}</div>
-                <div><i class="fas fa-microphone"></i> <strong>Content:</strong> ${podcast.content}</div>
-              </div>
+                        <div class="podcast-card__meta">
+                          <div><i class="fas fa-user"></i> <strong>Published By:</strong> ${podcast.rjname}</div>
+                          <div><i class="fas fa-microphone"></i> <strong>Content:</strong> ${podcast.content}</div>
+                        </div>
 
-              <div class="podcast-card__tags">
-                ${tagsHtml}
-              </div>
+                        <div class="podcast-card__tags">
+                          ${tagsHtml}
+                        </div>
 
-              <div class="podcast-card__footer">
-                <a href="podcast-details?id=${podcast.id}" class="podcast-card__button">
-                  <i class="fas fa-play"></i> Listen Now
-                </a>
-              </div>
-            </div>
-        `;
+                          <div class="podcast-card__footer">
+                              ${reactionsHtml}
+                              <a href="podcast-details?id=${podcast.id}" class="podcast-card__button ${reactionsHtml === "" ? 'only-button' : ''}">
+                                <i class="fas fa-play"></i> Listen Now
+                              </a>
+                            </div>
+                      </div>
+                    `;
             }).join('');
         }
 

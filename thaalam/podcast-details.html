@@ -146,7 +146,7 @@
 
                         <!-- Podcast Image -->
                         <div class="podcast-details__image">
-                            <img src="img/podcast-banner2.jpg" alt="Podcast Cover" oncontextmenu="return false;" />
+                            <img src="#" id="podcastImage" alt="Podcast Cover" oncontextmenu="return false;" />
                         </div>
 
                         <!-- Title -->
@@ -181,6 +181,28 @@
                                 Your browser does not support the audio element.
                             </audio>
                         </div>
+                        <div class="podcast-reactions" id="podcastReactions">
+                            <button class="reaction-btn" data-reaction="like">👍 <span class="count"
+                                    id="likeCount"></span></button>
+                            <button class="reaction-btn" data-reaction="love">❤️ <span class="count"
+                                    id="loveCount"></span></button>
+                            <button class="reaction-btn" data-reaction="clap">👏 <span class="count"
+                                    id="clapCount"></span></button>
+                        </div>
+
+                        <div class="podcast-details__comments">
+                            <h2>Comments</h2>
+                            <form id="commentForm" onSubmit="submitComment(event)">
+                                <textarea name="" id="commentInput" rows="1" placeholder="Write your comment..."
+                                    required></textarea>
+                                <button type="submit"> <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </form>
+
+                            <div class="comments-list" id="commentsList">
+
+                            </div>
+                        </div>
 
                         <!-- Tags -->
                         <div class="podcast-details__bottom">
@@ -207,7 +229,6 @@
                             </div>
 
                         </div>
-
 
                     </div> <!-- end left -->
 
@@ -256,6 +277,7 @@
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const podcastId = urlParams.get("id");
+        const memberId = localStorage.getItem("memberid");
 
         const currentURL = window.location.href;
 
@@ -265,7 +287,11 @@
                 .then(result => {
                     const data = result.podcast;
                     if (data) {
-                        // document.getElementById("podcastImage").src = `https://api.demoview.ch/api/${data.image_url.replace(/\\/g, "/")}`;
+                        if (data.image_url) {
+                            document.getElementById("podcastImage").src = `https://api.demoview.ch/api/${data.image_url.replace(/\\/g, "/")}`;
+                        } else {
+                            document.getElementById("podcastImage").src = "img/podcast-banner2.jpg";
+                        }
                         document.getElementById("podcastTitle").textContent = data.title;
                         document.getElementById("rjName").textContent = data.rjname;
                         document.getElementById("publishedDate").textContent = new Date(data.date).toLocaleDateString('en-US', {
@@ -283,9 +309,14 @@
                             ? data.tags.map(tag => `<span>${tag}</span>`).join(' ')
                             : '';
 
+                        if (result.reaction) {
+                            document.getElementById("likeCount").textContent = result.reaction.like;
+                            document.getElementById("loveCount").textContent = result.reaction.love;
+                            document.getElementById("clapCount").textContent = result.reaction.clap;
+                        }
+
                         fetchRelatedPodcasts(data.rjname, data.id);
                         updateMetaTags(data);
-
 
                         document.getElementById("fb-share").href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`;
                         document.getElementById("x-share").href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(data.title)}`;
@@ -407,6 +438,238 @@
                 });
         }
 
+        fetchComments(podcastId);
+        setupReactionHandlers(podcastId, memberId);
+
+        function setupReactionHandlers(podcastId, memberId) {
+            let currentUserReaction = null;
+
+            document.querySelectorAll(".reaction-btn").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    if (!memberId) {
+                        window.location.href = `/signin?redirect_url=${encodeURIComponent(window.location.href)}`;
+                        return;
+                    }
+
+                    const reactionType = btn.dataset.reaction;
+
+                    fetch("https://api.demoview.ch/api/podcasts/reaction", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            podcast_id: podcastId,
+                            member_id: memberId,
+                            reaction: reactionType
+                        })
+                    })
+                        .then(res => res.json())
+                        .then(result => {
+                            if (result.status === "success") {
+                                if (currentUserReaction) {
+                                    const prevBtn = document.querySelector(`.reaction-btn[data-reaction="${currentUserReaction}"]`);
+                                    const prevCountSpan = prevBtn.querySelector(".count");
+
+                                    if (currentUserReaction === reactionType) {
+                                        prevCountSpan.textContent = parseInt(prevCountSpan.textContent) - 1;
+                                        currentUserReaction = null;
+                                        refreshReactionCounts(podcastId);
+                                        return;
+                                    } else {
+                                        prevCountSpan.textContent = parseInt(prevCountSpan.textContent) - 1;
+                                    }
+                                }
+
+                                const countSpan = btn.querySelector(".count");
+                                countSpan.textContent = parseInt(countSpan.textContent || 0) + 1;
+                                currentUserReaction = reactionType;
+
+                                animateReaction(btn);
+                                refreshReactionCounts(podcastId);
+
+
+                            } else {
+                                errorToast("Failed to react.");
+                            }
+                        })
+                        .catch(err => {
+                            errorToast("Error reacting to podcast.");
+                        });
+                });
+            });
+        }
+
+        function animateReaction(button) {
+            button.classList.add("reaction-animate");
+            setTimeout(() => {
+                button.classList.remove("reaction-animate");
+            }, 500);
+        }
+
+        function refreshReactionCounts(podcastId) {
+            fetch(`https://api.demoview.ch/api/podcasts/${podcastId}/reactions`)
+                .then(res => res.json())
+                .then(result => {
+                    if (result.status === "success") {
+                        document.getElementById("likeCount").textContent = result.reactions.like;
+                        document.getElementById("loveCount").textContent = result.reactions.love;
+                        document.getElementById("clapCount").textContent = result.reactions.clap;
+                    }
+                })
+                .catch(err => {
+                    console.error("Error refreshing reactions:", err);
+                });
+        }
+
+
+        function submitComment(event) {
+            event.preventDefault();
+
+            if (!memberId) {
+                window.location.href = `/signin?redirect_url=${encodeURIComponent(window.location.href)}`;
+                return;
+            }
+
+            const commentText = document.getElementById("commentInput").value.trim();
+            if (!commentText) {
+                errorToast("Please write a comment before submitting.");
+                return;
+            }
+
+            const payload = {
+                podcast_id: podcastId,
+                member_id: memberId,
+                comment: commentText
+            };
+
+            fetch("https://api.demoview.ch/api/podcasts/comments", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            })
+                .then(res => res.json())
+                .then(result => {
+                    if (result.status === "success") {
+                        successToast("Comment posted successfully");
+                        fetchComments(podcastId);
+                        commentText.value = "";
+                    } else {
+                        errorToast("Failed to post comment");
+                    }
+                })
+                .catch(error => {
+                    errorToast("Something went Wrong. please try again later");
+                });
+        }
+
+        let currentPage = 1;
+        let totalPages = 1;
+        const commentsList = document.getElementById("commentsList");
+        const paginationNav = document.createElement("div");
+        paginationNav.className = "comment-pagination";
+        commentsList.after(paginationNav);
+
+        function fetchComments(podcastId, page = 1) {
+            fetch(`https://api.demoview.ch/api/podcasts/${podcastId}/comments?page=${page}&limit=10`)
+                .then(res => res.json())
+                .then(result => {
+
+                    const { data, pagination } = result.result;
+                    totalPages = pagination.totalPages;
+                    currentPage = pagination.currentPage;
+                    renderComments(data);
+                    renderPagination(podcastId);
+                })
+                .catch(err => console.error("Error fetching comments:", err));
+        }
+
+        function renderComments(comments) {
+            commentsList.innerHTML = "";
+
+            if (!comments.length) {
+                commentsList.innerHTML = `<p class="no-comments">No comments yet. Be the first to comment!</p>`;
+                paginationNav.innerHTML = "";
+                return;
+            }
+
+            comments.forEach(comment => {
+                const commentDiv = document.createElement("div");
+                commentDiv.classList.add("comment-item");
+
+                const initials = comment.Member.name.charAt(0).toUpperCase();
+                const fullComment = comment.comment;
+                const shortComment = fullComment.length > 200 ? fullComment.slice(0, 200) + "..." : fullComment;
+                const needsToggle = fullComment.length > 200;
+
+                commentDiv.innerHTML = `
+                      <div class="comment-avatar">${initials}</div>
+                      <div class="comment-content">
+                        <div class="comment-author">
+                          <strong>${comment.Member.name}</strong>
+                        </div>
+                        <div class="comment-bottom">
+                           <p class="comment-text">${shortComment}
+                            ${needsToggle ? `<span class="more-link">More</span>` : ""}
+                          </p>
+                          <div class="comment-footer">
+                            <span class="comment-date">${new Date(comment.created_at).toLocaleDateString('en-US', {
+                    year: 'numeric', month: 'short', day: 'numeric'
+                })}</span>
+                          </div>
+                      </div>
+                 
+                      </div>
+                    `;
+
+                if (needsToggle) {
+                    const textElem = commentDiv.querySelector(".comment-text");
+
+                    const toggleComment = (isExpanded) => {
+                        textElem.innerHTML = `
+                              ${isExpanded ? fullComment : shortComment}
+                              <span class="more-link">${isExpanded ? 'Less' : 'More'}</span>
+                            `;
+
+                        const newLink = textElem.querySelector(".more-link");
+                        newLink.addEventListener("click", () => {
+                            toggleComment(!isExpanded);
+                        });
+                    };
+
+                    toggleComment(false); // initial collapsed state
+                }
+
+
+                commentsList.appendChild(commentDiv);
+            });
+        }
+
+        function renderPagination(podcastId) {
+            if (totalPages <= 1) {
+                paginationNav.innerHTML = "";
+                return;
+            }
+
+            let buttons = "";
+            for (let i = 1; i <= totalPages; i++) {
+                buttons += `<button class="page-btn ${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`;
+            }
+
+            paginationNav.innerHTML = buttons;
+
+            const pageBtns = paginationNav.querySelectorAll(".page-btn");
+            pageBtns.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const page = parseInt(btn.dataset.page);
+                    if (page !== currentPage) {
+                        fetchComments(podcastId, page);
+                    }
+                });
+            });
+        }
     </script>
 </body>
 
