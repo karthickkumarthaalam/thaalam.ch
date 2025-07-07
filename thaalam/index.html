@@ -72,6 +72,99 @@
         font-weight: 800px;
       }
     }
+
+    /* Overlay */
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    /* Show the popup */
+    .popup-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* Popup content */
+    .popup-content {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 24px;
+      border-radius: 16px;
+      max-width: 90%;
+      max-height: 85vh;
+      overflow-y: auto;
+      position: relative;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      animation: popupFadeIn 0.3s ease;
+    }
+
+    /* Image */
+    .popup-image {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 10px;
+    }
+
+    /* Close button */
+    .close-popup {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      background: #ff4d4f;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .close-popup:hover {
+      background: #d9363e;
+    }
+
+    /* Animation */
+    @keyframes popupFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 480px) {
+      .popup-content {
+        padding: 16px;
+        border-radius: 12px;
+      }
+
+      .close-popup {
+        width: 28px;
+        height: 28px;
+        font-size: 16px;
+      }
+    }
   </style>
 
 
@@ -284,6 +377,14 @@
   </main>
   <!-- end main content -->
 
+  <div class="popup-overlay" id="popupBanner">
+    <div class="popup-content">
+      <button class="close-popup" id="closePopup">X</button>
+      <img src="" id="popupImage" alt="Popup Banner" class="popup-image">
+    </div>
+  </div>
+
+
 
   <div id="commonfooter"></div>
   <script>
@@ -413,6 +514,32 @@
       });
 
     });
+
+  </script>
+  <script>
+    $(function () {
+      if (!sessionStorage.getItem("popupShown")) {
+        fetch("https://api.demoview.ch/api/popup-banner?status=active")
+          .then(res => res.json())
+          .then(result => {
+            if (result.status === "success" && result.data && result.data.length > 0) {
+              const popupImage = document.getElementById("popupImage");
+              const imageUrl = `https://api.demoview.ch/api/${result.data[0].website_image.replace(/\\/g, "/")}`;
+              popupImage.src = imageUrl;
+
+              document.getElementById('popupBanner').classList.add('active');
+
+              sessionStorage.setItem('popupShown', 'true');
+            }
+          }).catch(error => {
+            console.error("Error Fetching popup banner:", error);
+          });
+      }
+
+      document.getElementById('closePopup').addEventListener('click', function () {
+        document.getElementById('popupBanner').classList.remove('active');
+      });
+    })
 
   </script>
 
